@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-bind绑定属性  是单项数据绑定 如果要实现双向数据绑定，需要配合oninput 事件 -->
+        <!-- v-on 绑定事件 -->
+        <!--  v-bind: value= :value    v-on:input=@input -->
+        <!-- <input type="text" v-bind:value="msg" v-on:input="(e) => {msg=e.target.value}" /><br/> -->
+        <input type="text" :value="msg" @input="(e) => {msg=e.target.value}" />
+        <br/>
+        <!-- v-model 双项数据绑定-->
+        <input type="text" v-model="msg" />
+        <br/> 
+        msg={{ msg }} 
+        <br/>
+        <!-- 下拉列表 -->
+        <select v-model="selectValue">
+            <option value ="0" disabled>--前选择--</option>
+            <option v-for="(list, key) in lists" :key="list.id" :value="list.id">{{ list.title }}</option>
+        </select>
+        <br/>
+        <!-- 单选框 -->
+        <input type="radio" v-model="radioValue" value="男" /> 男
+        <input type="radio" v-model="radioValue" value="女" /> 女
+        <br/>
+        <!-- 复选框 -->
+        <input type="checkbox" v-model="checkValues" value="running"/>游泳
+        <input type="checkbox" v-model="checkValues" value="eating"/>吃饭
+        <input type="checkbox" v-model="checkValues" value="learning"/>学习
+        <br/>
+        {{ checkValues }}
+        <br/>
+        <!-- 修饰符 .number 指定为numberl类型  .trim 去掉前后空格 .lazy  -->
+        <input type="text" v-model.number="val">{{ val +4 }}
+        <!--  .lazy 在默认情况下，v-model 在每次 input 事件触发后将输入框的值与数据进行同步 (除了上述输入法组合文字时)。你可以添加 lazy 修饰符，从而转变为使用 change 事件进行同步：-->
+        <input type="text" v-model.lazy="val">{{ val }}
+        
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            data: {
+                msg : "hello",
+                selectValue : 0,
+                radioValue : "男",  
+                checkValues : [],
+                val : 6,
+                lists : [{id : 1, title : "项目一"},{id : 2, title : "项目二"},{id : 3, title : "项目三"},]
+            }
+        }) .$mount('#app');  // 等于 el : "#app";
+    </script>
+</body>
+
+</html>

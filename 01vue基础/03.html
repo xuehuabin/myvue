@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!--  v-once 内部进行缓存，以后每次使用都是缓存的结果  -->
+        <div v-once>{{ info }}</div>
+        <div>{{ d }}</div>
+        <!--  v-html 相当于 innterHTML XSS攻击 -->
+        <div v-html="d"></div>
+        <!--  v-text 相当于 innterText  -->
+        <div v-text="d"></div>
+        <!--  v-if 控制元素的显示与隐藏 元素创建与销毁  -->
+        <div v-if="flag">abc</div>
+        <!--  v-show 控制元素的显示与隐藏 display:none/block  如果频繁的显示与隐藏，建议使用此方法-->
+        <div v-show="flag">abc</div>
+        <!--  template vue内置标签，不会渲染到DOM里面 对 v-show 指令不支持-->
+        <template v-if="flag">
+            <p>111</p>
+            <p>222</p>
+        </template>
+        <!-- v-else 配合 v-if 来使用 -->
+        <template v-else>
+            <p>555</p>
+            <p>666</p>
+        </template>
+        <!-- v-for 循环 循环谁就放在谁身上 -->
+        <ul>
+            <!--  key 是唯一标识符 是为了区分每个元素的唯一性，不建议使用index,可以使用后台数据传过来的 id  -->
+            <li v-for="(hobby,index) in hobbies" :key="hobby">{{ index }} {{ hobby }}</li>
+        </ul>
+        <!-- 使用 es6 新语法 for of  也可以 -->
+        <ul>
+            <li v-for="(hobby,index) of hobbies">{{ index }} {{ hobby }}</li>
+        </ul>
+        <!-- 演示 key 的重要性 -->
+        <!--  key 区分元素，尽量使用唯一标识，尽量不要使用index  -->
+        <div v-if="flag">
+            <span>aaaaa</span>
+            <input type="text" key="1" />
+        </div>
+        <div v-else>
+            <span>bbbbb</span>
+            <input type="text" key="2" />
+        </div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            data: {
+                info: "hello Vue",
+                d: "<p>123</p>",
+                flag: true,
+                hobbies: ["自行车", "汽车", "摩托车", "火车", "飞机"]
+            }
+        }).$mount('#app');   // 等于 el : "#app";
+    </script>
+</body>
+</html>

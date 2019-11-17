@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       {{ getInfo }} <br/>
+       {{ num }}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm =new Vue({
+            data : {
+                foo : "hello ",
+                 bar : "world",
+                 num : 10,
+                 getInfo : ''
+            },
+            // 方法不会缓存
+           /*  methods : {
+                getInfo() {
+                    console.log("method is called");
+                    return this.foo + this.bar;
+                }
+            }, */
+            // 计算属性 本质上是一个方法，用的时候当作属性来用
+            // 计算属性具有缓存
+            // 只有当其依赖的数据成员改变时，才会重新渲染
+            /* computed : {  // 底层方法：Object.defineProperty()
+                getInfo() {
+                    console.log("method is called");
+                    return this.foo + this.bar;
+                }
+            }, */
+            // watch VS computed
+            // 1. 尽量优先使用 computed  代码简洁
+            // 2. watch 支持异步，computed 不支持，需要异步实现的，就使用 watch
+            watch : {
+               /*  foo(newValue,oldValue) {
+                   this.getInfo = this.foo + this.bar;
+                },
+                bar(newValue,oldValue) {
+                    this.getInfo = this.foo + this.bar;
+                } */
+                foo : {
+                    handler() {  //handler()方法名字是固定的，不能改变
+                        setTimeout(()=>{  // 比如延时更新，只能使用 watch
+                            this.getInfo = this.foo + this.bar;
+                        },1000)
+                    },
+                    immediate : true  // 立即执行
+                },
+                bar : {
+                    handler() {  //handler()方法名字是固定的，不能改变
+                        this.getInfo = this.foo + this.bar;
+                    },
+                    immediate : true  // 立即执行
+                }
+            }
+        }).$mount("#app");
+    </script>
+</body>
+</html>

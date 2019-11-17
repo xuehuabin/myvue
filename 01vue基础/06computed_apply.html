@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" v-model="checkAll"/>全选<br/>
+        <input type="checkbox" v-for="(check,key) in checks" v-model="check.value"/>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm =new Vue({
+            data : {
+                checks : [{value : true},{value : false},{value : true}]
+            },
+            computed : {
+                checkAll : {
+                    get() {
+                        //every()方法，遍历数组，直到遇到第一个是false的，就结束遍历，返回false,如果都是ture,就返回true
+                        return this.checks.every((check)=>{
+                            return check.value;
+                        })
+                    },
+                    set(val) {
+                        return this.checks.forEach((check) => {
+                            check.value = val;
+                        })
+                    }
+                }
+            }
+        }).$mount("#app");
+    </script>
+</body>
+</html>

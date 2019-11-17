@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- view -->
+<div id="app">
+    {{ msg }} <br/>  <!-- {{}} 为插值表达式，可以取值，运算，三元运算符，函数调用等等... -->
+    {{ info }}<br/>
+    {{ obj.a }}<br/>
+    {{ obj.b }}<br/>
+    {{ obj.c }}<br/>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    // vue 属于 MVVM  model--数据  view--视图  viewmodel--视图模型
+    let vm = new Vue({  // viewmodel
+        el : "#app",  // DOM元素
+        data : {  //model
+            msg : "hello vue",
+            info : "vue 2.6.10",
+            obj : {
+                a : 1,
+                b : 2
+            } 
+        }
+    })
+    // vm 实例 代理了 data 中的数据
+    console.log(vm.msg);  // 获取数据，直接使用 vm.****
+    console.log(vm.$data);  // 获取data数据对象
+    console.log(vm.$el);  //
+    console.log(vm.$options);  //
+    // 数据驱动视图 数据改变 视图会自动更新
+    
+    //vm.obj.c = 3;  //此方法给对象增加一个属性，但是不是响应式的
+    vm.$set(vm.obj, "c", 3);  //使用$set方法，为响应式对象增加一个属性
+    /*
+        v----vm----m
+    */    
+</script></body>
+</html>
